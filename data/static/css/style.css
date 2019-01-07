@@ -1,0 +1,17 @@
+.header table {
+    border: 1px solid green;
+    border-spacing: 10px;
+    width: 100%;
+}
+
+
+.header th, tr {
+    padding: 10px;
+    border: 1px solid white;
+  }
+
+
+#mapid { 
+    height: 550px;
+    width: 550px;
+}
