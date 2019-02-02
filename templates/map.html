@@ -2,12 +2,19 @@
 
 {% block map %}
 {% load static %}
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-   crossorigin=""/>
-<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
-   integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
-   crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script type="text/javascript" src="{% static 'scripts/chartA.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/chart.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/jquery-3.3.1.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/L.Icon.Pulse.js' %}"></script>
+<script type="text/javascript" src="{% static 'scripts/animatedMarker.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/map.js' %}"></script>
 {% endblock map %}
 
@@ -15,8 +22,100 @@
 
 
 {% block content %}
-   <div id="mapid"></div>
+<div id="bodyDiv">
+
+
+   
    <script>
-      mapDisplay('mapid',{{ extent|safe }}, {{ points|safe}}, {{props|safe}})
+      function initCharts(){
+         var chartData = generateChartData({{ chartData|safe }});
+         chartDisplay(chartData, 'T');
+         $("#chartdivT").hide();
+         chartDisplay(chartData, 'C');
+         $("#chartdivC").hide();
+         chartDisplay(chartData, 'N');
+         $("#chartdivN").hide();
+         chartDisplayA(chartData);
+         $("#chartdivA").hide();
+      };
+
+
+      $(document).ready(function(){
+         mapDisplay('mapid',{{ extent|safe }}, {{ points|safe }}, {{ props|safe }});
+         initCharts();
+
+         $("#tempbtn").click(function(){
+            $("#chartdivC").hide();
+            $("#chartdivN").hide();
+            $("#chartdivA").hide();
+            $("#chartdivT").show();
+         });
+
+         $("#cobtn").click(function(){
+            $("#chartdivT").hide();
+            $("#chartdivN").hide();
+            $("#chartdivA").hide();
+            $("#chartdivC").show();
+         });
+
+         $("#nobtn").click(function(){
+            $("#chartdivT").hide();
+            $("#chartdivC").hide();
+            $("#chartdivA").hide();
+            $("#chartdivN").show();
+         });
+
+         $("#abtn").click(function(){
+            $("#chartdivT").hide();
+            $("#chartdivC").hide();
+            $("#chartdivN").hide();
+            $("#chartdivA").show();
+         });
+      });
+      
+
+
    </script>
+
+   <div id="mapAndChartBox">
+         <div id="mapid"></div>
+         <div id="chartBox">
+            <div id="slidebar">
+               <table>
+                  <tr>
+                     <td> <button type="button" class="bchart" name="tempbtn" id="tempbtn">Температура</button> </td>
+                     <td> <button type="button" class="bchart" name="cobtn" id="cobtn">CO</button> </td>
+                     <td> <button type="button" class="bchart" name="nobtn" id="nobtn">NO2</button> </td>
+                     <td> <button type="button" class="bchart" name="abtn" id="abtn">Общий</button> </td>
+                  </tr>
+               </table>
+            </div>
+         
+            <div id="allCharts">
+               <div id="chartdivT"></div>
+               <div id="chartdivC"></div>
+               <div id="chartdivN"></div>
+               <div id="chartdivA"></div>            
+            </div>
+         </div>
+   </div>
+
+   <div id="mapCtrl">
+      <table>
+         <tr>
+            <td><div id="mysuperdiv">dddd</div></td>  
+            <td> <button type="button" class="mapbtn" name="play" id="playbtn" onclick="playClick()">Play</button> </td>
+            <td> <button type="button" class="mapbtn" name="pause" id="pausebtn" onclick="pauseClick()">Pause</button> </td>
+            <td> <button type="button" class="mapbtn" name="stop" id="stopbtn" onclick="stopClick()">Stop</button> </td>
+            <td> <button type="button" class="mapbtn" name="prev" id="prevbtn" onclick="prevClick()">PrevP</button> </td>
+            <td> <button type="button" class="mapbtn" name="next" id="nextbtn" onclick="nextClick()">NextP</button> </td>
+            <!-- <td> <button type="button" class="mapbtn" name="" id="nobtn">NO2</button> </td> -->
+            <!-- <td> <button type="button" class="mapbtn" name="" id="abtn">Общий</button> </td> -->
+         </tr>
+      </table>
+   </div>
+
+</div>
+
+   
 {% endblock content %}

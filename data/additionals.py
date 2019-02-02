@@ -1,6 +1,7 @@
 from django.contrib.gis.geos import Point
 
 
+
 class Parser():
 
     def parse(self, line):

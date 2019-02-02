@@ -8,10 +8,112 @@
 .header th, tr {
     padding: 10px;
     border: 1px solid white;
-  }
+}
 
 
 #mapid { 
-    height: 550px;
-    width: 550px;
+    height: 500px;
+    width: 30%;
+    float: left;
+}
+
+#chartBox{
+    height: 500px;
+    width: 70%;
+    float: left;
+}
+
+
+#chartdivT{
+    height: 500px;
+    float: left;
+}
+
+#chartdivC {
+    height: 500px;
+    float: left;
+  }
+
+#chartdivN {
+    height: 500px;
+    float: left;
+}
+
+#chartdivA {
+    height: 500px;
+    float: left;
+}
+
+button.bchart {
+    width: 100%
+}
+
+#slidebar{
+    float:left;
+}
+#slidebar table {
+    width: 100%;
+    height: 10px;
+    float: left;
+}
+
+#slidebar td {
+    width: 25%;
+}
+
+/* #mapCtrl {
+
+} */
+
+#mapCtrl{
+    float:left;
+}
+
+#mapCtrl table {
+    height: 5px;
+    width: 30%;
+    float: left;
+}
+
+#mapCtrl td {
+    width: 25%;
+}
+
+
+
+
+
+.leaflet-pulsing-icon {
+    border-radius: 100%;
+    box-shadow: 1px 1px 8px 0 rgba(0,0,0,0.75);
+}
+
+.leaflet-pulsing-icon:after {
+    content: "";
+    border-radius: 100%;
+    height: 300%;
+    width: 300%;
+    position: absolute;
+    margin: -100% 0 0 -100%;
+
+}
+
+@keyframes pulsate {
+    0% {
+        transform: scale(0.1, 0.1);
+        opacity: 0;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+    }
+    50% {
+        opacity: 1;
+        -ms-filter: none;
+        filter: none;
+    }
+    100% {
+        transform: scale(1.2, 1.2);
+        opacity: 0;
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+    }
 }
