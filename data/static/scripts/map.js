@@ -14,6 +14,8 @@ function stopClick(){
 function prevClick(){
     setTimeout(function() {marker.stop();}, 1);    
     marker._i-=100;
+    marker.start();
+    marker.stop();
 }
 
 function nextClick(){
@@ -68,6 +70,7 @@ function mapDisplay(mapContainer, extent, points, props){
         distance: 300,
         onStep: function() {
             $('#mysuperdiv').text(this._i);
+            tChart.moveCursor(this._i);
         }
     });
     

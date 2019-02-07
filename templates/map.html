@@ -27,15 +27,17 @@
 
    
    <script>
+      var tCart;
+      
       function initCharts(){
          var chartData = generateChartData({{ chartData|safe }});
-         chartDisplay(chartData, 'T');
+         tChart = new chart(chartData, 'T');
          $("#chartdivT").hide();
-         chartDisplay(chartData, 'C');
+         // const cChart = new chart(chartData, 'C');
          $("#chartdivC").hide();
-         chartDisplay(chartData, 'N');
+         // const nChart = new chart(chartData, 'N');
          $("#chartdivN").hide();
-         chartDisplayA(chartData);
+         // chartDisplayA(chartData);
          $("#chartdivA").hide();
       };
 
@@ -78,43 +80,47 @@
    </script>
 
    <div id="mapAndChartBox">
+
+      <div id="mapBox">
          <div id="mapid"></div>
-         <div id="chartBox">
-            <div id="slidebar">
-               <table>
-                  <tr>
-                     <td> <button type="button" class="bchart" name="tempbtn" id="tempbtn">Температура</button> </td>
-                     <td> <button type="button" class="bchart" name="cobtn" id="cobtn">CO</button> </td>
-                     <td> <button type="button" class="bchart" name="nobtn" id="nobtn">NO2</button> </td>
-                     <td> <button type="button" class="bchart" name="abtn" id="abtn">Общий</button> </td>
-                  </tr>
-               </table>
-            </div>
-         
-            <div id="allCharts">
-               <div id="chartdivT"></div>
-               <div id="chartdivC"></div>
-               <div id="chartdivN"></div>
-               <div id="chartdivA"></div>            
-            </div>
+         <div id="mapCtrl">
+            <table>
+               <tr>
+                  <td><div id="mysuperdiv">dddd</div></td>  
+                  <td> <button type="button" class="mapbtn" name="play" id="playbtn" onclick="playClick()">Play</button> </td>
+                  <td> <button type="button" class="mapbtn" name="pause" id="pausebtn" onclick="pauseClick()">Pause</button> </td>
+                  <td> <button type="button" class="mapbtn" name="stop" id="stopbtn" onclick="stopClick()">Stop</button> </td>
+                  <td> <button type="button" class="mapbtn" name="prev" id="prevbtn" onclick="prevClick()">PrevP</button> </td>
+                  <td> <button type="button" class="mapbtn" name="next" id="nextbtn" onclick="nextClick()">NextP</button> </td>
+                  <!-- <td> <button type="button" class="mapbtn" name="" id="nobtn">NO2</button> </td> -->
+                  <!-- <td> <button type="button" class="mapbtn" name="" id="abtn">Общий</button> </td> -->
+               </tr>
+            </table>
+         </div>      
+      </div>
+      
+      <div id="chartBox">
+         <div id="slidebar">
+            <table>
+               <tr>
+                  <td> <button type="button" class="bchart" name="tempbtn" id="tempbtn">Температура</button> </td>
+                  <td> <button type="button" class="bchart" name="cobtn" id="cobtn">CO</button> </td>
+                  <td> <button type="button" class="bchart" name="nobtn" id="nobtn">NO2</button> </td>
+                  <td> <button type="button" class="bchart" name="abtn" id="abtn">Общий</button> </td>
+               </tr>
+            </table>
          </div>
-   </div>
+      
+         <div id="allCharts">
+            <div class="chart" id="chartdivT"></div>
+            <div class="chart" id="chartdivC"></div>
+            <div class="chart" id="chartdivN"></div>
+            <div class="chart" id="chartdivA"></div>            
+         </div>
+      </div>
+   
 
-   <div id="mapCtrl">
-      <table>
-         <tr>
-            <td><div id="mysuperdiv">dddd</div></td>  
-            <td> <button type="button" class="mapbtn" name="play" id="playbtn" onclick="playClick()">Play</button> </td>
-            <td> <button type="button" class="mapbtn" name="pause" id="pausebtn" onclick="pauseClick()">Pause</button> </td>
-            <td> <button type="button" class="mapbtn" name="stop" id="stopbtn" onclick="stopClick()">Stop</button> </td>
-            <td> <button type="button" class="mapbtn" name="prev" id="prevbtn" onclick="prevClick()">PrevP</button> </td>
-            <td> <button type="button" class="mapbtn" name="next" id="nextbtn" onclick="nextClick()">NextP</button> </td>
-            <!-- <td> <button type="button" class="mapbtn" name="" id="nobtn">NO2</button> </td> -->
-            <!-- <td> <button type="button" class="mapbtn" name="" id="abtn">Общий</button> </td> -->
-         </tr>
-      </table>
    </div>
-
 </div>
 
    
