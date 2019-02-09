@@ -66,8 +66,8 @@ function mapDisplay(mapContainer, extent, points, props){
     var line = L.polyline(ps)
     marker = L.animatedMarker(line.getLatLngs(), {
         autoStart: false,
-        interval: 200,
-        distance: 300,
+        interval: 100,
+        distance: 400,
         onStep: function() {
             $('#mysuperdiv').text(this._i);
             tChart.moveCursor(this._i);
@@ -76,29 +76,5 @@ function mapDisplay(mapContainer, extent, points, props){
     
 
     mymap.addLayer(marker);
-
-    // $("#pausebtn").click(function(){
-    //     setTimeout(function() {
-    //         // Stop the animation
-    //         marker.stop();},
-    //         5000);    
-    // });
-
-
-
-    // marker.start();
-    
-    // return marker
-    
-
-    
-    // move = L.Marker.movingMarker(ps,
-    //     Array(ps.length).fill(1000),{loop:true}).addTo(mymap);
-    // // move.addStation(2, 20000);
-    
-
-    // move.start();
-
-//...
 
 }

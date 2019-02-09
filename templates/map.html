@@ -7,10 +7,11 @@
 
 <script src="https://www.amcharts.com/lib/4/core.js"></script>
 <script src="https://www.amcharts.com/lib/4/charts.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script>
-<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+<!-- <script src="https://www.amcharts.com/lib/4/themes/dataviz.js"></script> -->
+<script src="https://www.amcharts.com/lib/4/themes/material.js"></script>
+<!-- <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script> -->
 
-<script type="text/javascript" src="{% static 'scripts/chartA.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'scripts/chartA.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'scripts/chart.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/jquery-3.3.1.js' %}"></script>
 <script type="text/javascript" src="{% static 'scripts/L.Icon.Pulse.js' %}"></script>
@@ -27,18 +28,18 @@
 
    
    <script>
-      var tCart;
+      var tChart;
       
       function initCharts(){
          var chartData = generateChartData({{ chartData|safe }});
          tChart = new chart(chartData, 'T');
-         $("#chartdivT").hide();
+         // $("#chartdivT").hide();
          // const cChart = new chart(chartData, 'C');
-         $("#chartdivC").hide();
+         // $("#chartdivC").hide();
          // const nChart = new chart(chartData, 'N');
-         $("#chartdivN").hide();
+         // $("#chartdivN").hide();
          // chartDisplayA(chartData);
-         $("#chartdivA").hide();
+         // $("#chartdivA").hide();
       };
 
 
@@ -47,32 +48,35 @@
          initCharts();
 
          $("#tempbtn").click(function(){
-            $("#chartdivC").hide();
-            $("#chartdivN").hide();
-            $("#chartdivA").hide();
-            $("#chartdivT").show();
+            tChart.hideT();
+            // $("#chartdivC").hide();
+            // $("#chartdivN").hide();
+            // $("#chartdivA").hide();
+            // $("#chartdivT").show();
          });
 
          $("#cobtn").click(function(){
-            $("#chartdivT").hide();
-            $("#chartdivN").hide();
-            $("#chartdivA").hide();
-            $("#chartdivC").show();
+            tChart.hideC();
+            // $("#chartdivT").hide();
+            // $("#chartdivN").hide();
+            // $("#chartdivA").hide();
+            // $("#chartdivC").show();
          });
 
          $("#nobtn").click(function(){
-            $("#chartdivT").hide();
-            $("#chartdivC").hide();
-            $("#chartdivA").hide();
-            $("#chartdivN").show();
+            tChart.hideN();
+            // $("#chartdivT").hide();
+            // $("#chartdivC").hide();
+            // $("#chartdivA").hide();
+            // $("#chartdivN").show();
          });
 
-         $("#abtn").click(function(){
-            $("#chartdivT").hide();
-            $("#chartdivC").hide();
-            $("#chartdivN").hide();
-            $("#chartdivA").show();
-         });
+         // $("#abtn").click(function(){
+            // $("#chartdivT").hide();
+            // $("#chartdivC").hide();
+            // $("#chartdivN").hide();
+            // $("#chartdivA").show();
+         // });
       });
       
 
@@ -106,16 +110,16 @@
                   <td> <button type="button" class="bchart" name="tempbtn" id="tempbtn">Температура</button> </td>
                   <td> <button type="button" class="bchart" name="cobtn" id="cobtn">CO</button> </td>
                   <td> <button type="button" class="bchart" name="nobtn" id="nobtn">NO2</button> </td>
-                  <td> <button type="button" class="bchart" name="abtn" id="abtn">Общий</button> </td>
+                  <!-- <td> <button type="button" class="bchart" name="abtn" id="abtn">Общий</button> </td> -->
                </tr>
             </table>
          </div>
       
          <div id="allCharts">
             <div class="chart" id="chartdivT"></div>
-            <div class="chart" id="chartdivC"></div>
-            <div class="chart" id="chartdivN"></div>
-            <div class="chart" id="chartdivA"></div>            
+            <!-- <div class="chart" id="chartdivC"></div> -->
+            <!-- <div class="chart" id="chartdivN"></div> -->
+            <!-- <div class="chart" id="chartdivA"></div> -->
          </div>
       </div>
    
