@@ -1,0 +1,1 @@
+web: gunicorn miigis.wsgi --log-file -
