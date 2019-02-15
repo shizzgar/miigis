@@ -112,10 +112,13 @@ class chart {
         this.valueAxisT = this.chart.yAxes.push(new am4charts.ValueAxis());
         this.valueAxisT.title.text = "Температура С"; //ax name    
         this.valueAxisT.renderer.minGridDistance = 50;
+        
     
         this.seriesT = this.chart.series.push(new am4charts.LineSeries());
         this.seriesT.dataFields.categoryX = "dist"; 
         this.seriesT.dataFields.valueY = "temp";
+        this.seriesT.stroke = am4core.color("#0013A8");
+
         this.seriesT.yAxis = this.valueAxisT; // new line
         this.seriesT.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.seriesT.tensionX = 0.8;
