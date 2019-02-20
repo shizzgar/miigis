@@ -200,8 +200,12 @@ class chart {
         // };
         // this.series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.chart.cursor = new am4charts.XYCursor();
-        this.chart.legend = new am4charts.Legend();
-        this.chart.scrollbarX = new am4core.Scrollbar();
+        this.chart.scrollbarX = new am4charts.XYChartScrollbar();
+        this.chart.scrollbarX.series.push(this.seriesT);
+        this.chart.scrollbarX.series.push(this.seriesC);
+        this.chart.scrollbarX.series.push(this.seriesN);
+
+        
 
         
     }
