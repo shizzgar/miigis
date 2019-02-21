@@ -213,7 +213,7 @@ class chart {
     moveCursor(step) {
         var point = this.categoryAxis.categoryToPoint(this.chart.data[step]["dist"]);
         // this.chart.cursor.triggerMove(point, false);
-        this.chart.scrollbarX.Slider.moveTo(point);
+        this.chart.scrollbarX.moveTo(point);
     }
 
 
