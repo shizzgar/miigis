@@ -129,7 +129,7 @@ class chart {
         this.valueAxisT.renderer.line.strokeWidth = 2;
         this.valueAxisT.renderer.line.stroke = this.seriesT.stroke;
         this.valueAxisT.renderer.labels.template.fill = this.seriesT.stroke;
-        this.valueAxisT.renderer.opposite = true;
+        this.valueAxisT.renderer.opposite = opposite;
         this.valueAxisT.renderer.grid.template.disabled = true;    
             
 
@@ -212,7 +212,8 @@ class chart {
 
     moveCursor(step) {
         var point = this.categoryAxis.categoryToPoint(this.chart.data[step]["dist"]);
-        this.chart.cursor.triggerMove(point, false);
+        // this.chart.cursor.triggerMove(point, false);
+        this.chart.scrollbarX.Slider.moveTo(point);
     }
 
 
