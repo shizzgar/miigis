@@ -26,73 +26,6 @@ function generateChartData(dforChar) {
 }
 
 
-// function moveCursor(step){
-//     var point = val1.categoryToPoint(chart.data[step]["dist"]);
-//     chart.cursor.triggerMove(point, false);
-// };
-
-
-
-//chart for one line
-// function chartDisplay(dforChar, n){
-//     // Themes begin
-//     // am4core.useTheme(am4themes_animated);
-
-//     var chart = am4core.create("chartdiv" + n, am4charts.XYChart);
-
-
-//     chart.data = dforChar;
-
-//     // Create axes
-//     var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-//     categoryAxis.renderer.minGridDistance = 100;
-//     categoryAxis.title.text = "Dist";
-//     categoryAxis.dataFields.category = "dist";
-
-
-//     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-//     // Create series
-//     var series = chart.series.push(new am4charts.LineSeries());
-//     series.dataFields.categoryX = "dist";
-    
-//     switch(n) {
-//         case 'T':
-//             valueAxis.title.text = "Температура С"; //ax name
-//             series.dataFields.valueY = "temp";
-//             break;
-//         case 'C':
-//             valueAxis.title.text = "CO";
-//             series.dataFields.valueY = "co";
-//             break;
-//         case 'N':
-//             valueAxis.title.text = "NO2";
-//             series.dataFields.valueY = "no2";
-//             break;
-//     };
-    
-//     series.tooltipText = "{categoryX}: [bold]{valueY}[/]"
-//     // series.tooltip.pointerOrientation = "vertical";
-
-//     chart.cursor = new am4charts.XYCursor();
-//     // chart.cursor.snapToSeries = series;
-//     // chart.cursor.xAxis = distAxis;
-//     // chart.cursor.yAxes = valueAxis;
-
-//     //chart.scrollbarY = new am4core.Scrollbar();
-//     chart.scrollbarX = new am4core.Scrollbar();
-
-//     // chart.events.on("ready", function () {
-//     //     dateAxis.zoomToDates(
-//     //       new Date(dforChar[0].date),
-//     //       new Date(dforChar[1000].date),
-//     //       false,
-//     //       true
-//     //     );
-//     //   });
-//     return valueAxis;
-
-// };
-
 
 class chart {
     constructor(data, type) {
@@ -115,11 +48,13 @@ class chart {
         
     
         this.seriesT = this.chart.series.push(new am4charts.LineSeries());
+        this.seriesT.tooltip.getFillFromObject = false;
         this.seriesT.dataFields.categoryX = "dist"; 
         this.seriesT.dataFields.valueY = "temp";
         this.seriesT.stroke = am4core.color("#0013A8");
 
         this.seriesT.yAxis = this.valueAxisT; // new line
+        this.seriesT.tooltip.background.fill = am4core.color("#0013A8");
         this.seriesT.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.seriesT.tensionX = 0.8;
         this.seriesT.status = true;
@@ -184,21 +119,6 @@ class chart {
 
 
 
-        // switch(type) {
-        //     case 'T':
-        //         this.valueAxis.title.text = "Температура С"; //ax name
-        //         this.series.dataFields.valueY = "temp";
-        //         break;
-        //     case 'C':
-        //         this.valueAxis.title.text = "CO";
-        //         this.series.dataFields.valueY = "co";
-        //         break;
-        //     case 'N':
-        //         this.valueAxis.title.text = "NO2";
-        //         this.series.dataFields.valueY = "no2";
-        //         break;
-        // };
-        // this.series.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.chart.cursor = new am4charts.XYCursor();
         this.chart.scrollbarX = new am4charts.XYChartScrollbar();
         this.chart.scrollbarX.series.push(this.seriesT);
@@ -210,10 +130,13 @@ class chart {
         
     }
 
+    
+
     moveCursor(step) {
-        var point = this.categoryAxis.categoryToPoint(this.chart.data[step]["dist"]);
-        // this.chart.cursor.triggerMove(point, false);
-        this.chart.scrollbarX.moveTo(point);
+        var point = this.categoryAxis.categoryToPoint(this.chart.data[step+50]["dist"]);
+        this.categoryAxis.zoomToCategories(this.chart.data[step]["dist"], this.chart.data[step+100]["dist"]);
+        this.chart.cursor.triggerMove(point, false);
+        // this.chart.slider.moveTo(point);
     }
 
 
