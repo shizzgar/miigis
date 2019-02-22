@@ -42,6 +42,8 @@ class chart {
 
 
         //valAx and Series for temp
+
+        //add animation tooltip = 0
         this.valueAxisT = this.chart.yAxes.push(new am4charts.ValueAxis());
         this.valueAxisT.title.text = "Температура С"; //ax name    
         this.valueAxisT.renderer.minGridDistance = 50;
@@ -54,10 +56,16 @@ class chart {
         this.seriesT.stroke = am4core.color("#0013A8");
 
         this.seriesT.yAxis = this.valueAxisT; // new line
+        this.seriesT.tooltip.animationDuration = 0;
+
         this.seriesT.tooltip.background.fill = am4core.color("#0013A8");
         this.seriesT.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.seriesT.tensionX = 0.8;
         this.seriesT.status = true;
+        this.seriesT.legendSettings.labelText = "[bold {color}]Temp:[/]";
+        this.seriesT.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
+
+
 
 
         this.valueAxisT.renderer.line.strokeOpacity = 1;
@@ -79,9 +87,12 @@ class chart {
         this.seriesC.dataFields.categoryX = "dist"; 
         this.seriesC.dataFields.valueY = "co";
         this.seriesC.yAxis = this.valueAxisC; // new line
+        this.seriesC.tooltip.animationDuration = 0;
         this.seriesC.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.seriesC.tensionX = 0.8;
         this.seriesC.status = true;
+        this.seriesC.legendSettings.labelText = "[bold {color}]CO:[/]";
+        this.seriesC.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
 
 
         this.valueAxisC.renderer.line.strokeOpacity = 1;
@@ -102,9 +113,12 @@ class chart {
         this.seriesN.dataFields.categoryX = "dist"; 
         this.seriesN.dataFields.valueY = "no2";
         this.seriesN.yAxis = this.valueAxisN; // new line
+        this.seriesN.tooltip.animationDuration = 0;
         this.seriesN.tooltipText = "{categoryX}: [bold]{valueY}[/]";
         this.seriesN.tensionX = 0.8;
         this.seriesN.status = true;
+        this.seriesN.legendSettings.labelText = "[bold {color}]NO2:[/]";
+        this.seriesN.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
         
         
 
@@ -120,6 +134,16 @@ class chart {
 
 
         this.chart.cursor = new am4charts.XYCursor();
+        // this.chart.cursor.animationDuration = 0;
+        this.chart.cursor.lineY.disabled = true;
+        this.chart.cursor.xAxis = this.categoryAxis;
+        this.chart.cursor.behavior = 'panX';
+        // this.chart.cursor.fullWidthLineX = true;
+
+
+        this.chart.legend = new am4charts.Legend();
+
+
         this.chart.scrollbarX = new am4charts.XYChartScrollbar();
         this.chart.scrollbarX.series.push(this.seriesT);
         this.chart.scrollbarX.series.push(this.seriesC);
@@ -134,8 +158,14 @@ class chart {
 
     moveCursor(step) {
         var point = this.categoryAxis.categoryToPoint(this.chart.data[step+50]["dist"]);
-        this.categoryAxis.zoomToCategories(this.chart.data[step]["dist"], this.chart.data[step+100]["dist"]);
+        // if (step==1){
+            
+        // };
+        this.categoryAxis.zoomToCategories(this.chart.data[step]["dist"], this.chart.data[step+100]["dist"]);    
+        //add break i+100 > dist
+        // this.chart.cursor.showTooltip(point);
         this.chart.cursor.triggerMove(point, false);
+        
         // this.chart.slider.moveTo(point);
     }
 

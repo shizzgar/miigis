@@ -23,7 +23,16 @@ function nextClick(){
     marker._i+=100;
 }
 
+var onChart = function(e) {
+    // console.log(this);
+    // alert(this.options.cid);
+    tChart.categoryAxis.zoomToCategories(chartData[this.options.cid-50]["dist"], chartData[this.options.cid+50]["dist"]);    
+    tChart.chart.cursor.triggerMove(this.options.cid, false);
+}
+
     
+
+
 
 function mapDisplay(mapContainer, extent, points, props){
     var mymap = L.map(mapContainer).fitBounds(extent.coordinates);
@@ -48,18 +57,19 @@ function mapDisplay(mapContainer, extent, points, props){
     }).addTo(mymap);
 
     for (index=0; index<ps.length; index++){
-        new L.circleMarker([ps[index][0], ps[index][1]],{radius:1})
-        .bindPopup(
+        var crlMarker = new L.circleMarker([ps[index][0], ps[index][1]],{radius:1, cid:index})
+
+        crlMarker.bindPopup(
             '<strong>CO</strong>:'+props[index]['CO']
             +"<br><strong>NO2</strong>:"+props[index]['NO2']
             +"<br><strong>TEMP</strong>:"+props[index]['TEMP']
-        ).addTo(mymap);
+        ).addTo(mymap).on('click', onChart);
+        //modified
     }
 
     var pulsingIconStart = L.icon.pulse({iconSize:[3,3],color:'red'});
-    var markerStart = L.marker([ps[0][0], ps[0][1]],{icon: pulsingIconStart}).addTo(mymap);
-
     var pulsingIconFinish = L.icon.pulse({iconSize:[3,3],color:'blue'});
+    var markerStart = L.marker([ps[0][0], ps[0][1]],{icon: pulsingIconStart}).addTo(mymap);
     var markerFinish = L.marker([ps[ps.length-1][0], ps[ps.length-1][1]],{icon: pulsingIconFinish}).addTo(mymap);
 
 
@@ -67,13 +77,12 @@ function mapDisplay(mapContainer, extent, points, props){
     marker = L.animatedMarker(line.getLatLngs(), {
         autoStart: false,
         interval: 100,
-        distance: 400,
+        distance: 100,
         onStep: function() {
             $('#mysuperdiv').text(this._i);
             tChart.moveCursor(this._i);
         }
     });
-    
 
     mymap.addLayer(marker);
 
