@@ -26,8 +26,9 @@ function nextClick(){
 var onChart = function(e) {
     // console.log(this);
     // alert(this.options.cid);
-    tChart.categoryAxis.zoomToCategories(chartData[this.options.cid-50]["dist"], chartData[this.options.cid+50]["dist"]);    
-    tChart.chart.cursor.triggerMove(this.options.cid, false);
+    var point = tChart.categoryAxis.categoryToPoint(tChart.chart.data[this.options.cid]["dist"]);
+    tChart.categoryAxis.zoomToCategories(tChart.chart.data[this.options.cid-50]["dist"], tChart.chart.data[this.options.cid+50]["dist"]);    
+    tChart.chart.cursor.triggerMove(point, false);
 }
 
     
