@@ -64,12 +64,13 @@ class chart {
         this.seriesT.status = true;
         this.seriesT.legendSettings.labelText = "[bold {color}]Temp:[/]";
         this.seriesT.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
+        this.seriesT.strokeWidth = 2;
 
 
 
 
-        this.valueAxisT.renderer.line.strokeOpacity = 1;
-        this.valueAxisT.renderer.line.strokeWidth = 2;
+        this.valueAxisT.renderer.line.strokeOpacity = 3;
+        this.valueAxisT.renderer.line.strokeWidth = 3;
         this.valueAxisT.renderer.line.stroke = this.seriesT.stroke;
         this.valueAxisT.renderer.labels.template.fill = this.seriesT.stroke;
         this.valueAxisT.renderer.opposite = opposite;
@@ -93,10 +94,11 @@ class chart {
         this.seriesC.status = true;
         this.seriesC.legendSettings.labelText = "[bold {color}]CO:[/]";
         this.seriesC.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
+        this.seriesC.strokeWidth = 2;
 
 
-        this.valueAxisC.renderer.line.strokeOpacity = 1;
-        this.valueAxisC.renderer.line.strokeWidth = 2;
+        this.valueAxisC.renderer.line.strokeOpacity = 3;
+        this.valueAxisC.renderer.line.strokeWidth = 3;
         this.valueAxisC.renderer.line.stroke = this.seriesC.stroke;
         this.valueAxisC.renderer.labels.template.fill = this.seriesC.stroke;
         this.valueAxisC.renderer.opposite = opposite;
@@ -119,11 +121,11 @@ class chart {
         this.seriesN.status = true;
         this.seriesN.legendSettings.labelText = "[bold {color}]NO2:[/]";
         this.seriesN.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
-        
+        this.seriesN.strokeWidth = 2;
         
 
-        this.valueAxisN.renderer.line.strokeOpacity = 1;
-        this.valueAxisN.renderer.line.strokeWidth = 2;
+        this.valueAxisN.renderer.line.strokeOpacity = 3;
+        this.valueAxisN.renderer.line.strokeWidth = 3;
         this.valueAxisN.renderer.line.stroke = this.seriesN.stroke;
         this.valueAxisN.renderer.labels.template.fill = this.seriesN.stroke;
         this.valueAxisN.renderer.opposite = opposite;
@@ -134,10 +136,10 @@ class chart {
 
 
         this.chart.cursor = new am4charts.XYCursor();
-        // this.chart.cursor.animationDuration = 0;
+        this.chart.cursor.animationDuration = 0;
         this.chart.cursor.lineY.disabled = true;
         this.chart.cursor.xAxis = this.categoryAxis;
-        this.chart.cursor.behavior = 'panX';
+        this.chart.cursor.behavior = 'none';
         // this.chart.cursor.fullWidthLineX = true;
 
 
@@ -149,12 +151,33 @@ class chart {
         this.chart.scrollbarX.series.push(this.seriesC);
         this.chart.scrollbarX.series.push(this.seriesN);
 
+        this.seriesT.segments.template.interactionsEnabled = true;
+        this.seriesC.segments.template.interactionsEnabled = true;
+        this.seriesN.segments.template.interactionsEnabled = true;
+        this.seriesT.segments.template.events.on("hit", this.onMap, this);
+        this.seriesC.segments.template.events.on("hit", this.onMap, this); 
+        this.seriesN.segments.template.events.on("hit", this.onMap, this);  
+        // this.chart.cursor.events.off("hit", onMap, this); 
+
+
         
 
         
     }
 
     
+    onMap(ev){
+        var category = ev.target.dataItem.component.tooltipDataItem.dataContext;
+        // point = category.positionToIndex(category.toAxisPosition(ev.target.xPosition));
+        console.log(category.dist);
+        var index = tChart.chart.data.indexOf(category)
+        var point = points.coordinates[index]
+        console.log(point);
+        map.setView(point, 17)
+        markers[index].openPopup();
+        
+    }
+
 
     moveCursor(step) {
         var point = this.categoryAxis.categoryToPoint(this.chart.data[step+50]["dist"]);
@@ -164,7 +187,7 @@ class chart {
         this.categoryAxis.zoomToCategories(this.chart.data[step]["dist"], this.chart.data[step+100]["dist"]);    
         //add break i+100 > dist
         // this.chart.cursor.showTooltip(point);
-        this.chart.cursor.triggerMove(point, false);
+        this.chart.cursor.triggerMove(point, 'hard');
         
         // this.chart.slider.moveTo(point);
     }

@@ -23,17 +23,47 @@ function nextClick(){
     marker._i+=100;
 }
 
-var onChart = function(e) {
-    // console.log(this);
-    // alert(this.options.cid);
-    var point = tChart.categoryAxis.categoryToPoint(tChart.chart.data[this.options.cid]["dist"]);
-    tChart.categoryAxis.zoomToCategories(tChart.chart.data[this.options.cid-50]["dist"], tChart.chart.data[this.options.cid+50]["dist"]);    
-    tChart.chart.cursor.triggerMove(point, false);
-}
+
+
 
     
 
 
+var onChart = function(e) {
+    // console.log(this);
+    // alert(this.options.cid);
+    index=this.options.cid;
+    console.log(this)
+    dist = tChart.chart.data[index]["dist"];
+
+    ldist = 0;
+    rdist = 0;
+    delta1 = 0;
+    while ((delta1<=200)&&(ldist<index)) {
+        delta1 = dist - tChart.chart.data[index-ldist]["dist"];
+        ldist+=1;
+    }
+    delta2 = 0;
+    len=tChart.chart.data.length;
+    while ((delta2<=200)&&((index+rdist)<(len-1))) {
+        delta2 = tChart.chart.data[index+rdist]["dist"] - dist;
+        rdist+=1;       
+    }
+
+
+    var point = tChart.categoryAxis.categoryToPoint(dist);
+    console.log("current:"+index+", left: "+ldist+", right: "+rdist+" delta left:"+delta1+" delta right:"+delta2);
+
+    tChart.categoryAxis.zoomToCategories(tChart.chart.data[index-ldist]["dist"], tChart.chart.data[index+rdist]["dist"]);  
+    setTimeout(function() {
+        tChart.chart.cursor.triggerMove(point, "soft");
+    }, 100);  
+}
+
+
+    
+
+var markers = [];
 
 function mapDisplay(mapContainer, extent, points, props){
     var mymap = L.map(mapContainer).fitBounds(extent.coordinates);
@@ -52,7 +82,7 @@ function mapDisplay(mapContainer, extent, points, props){
 
     L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 18,
+        maxZoom: 20,
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1Ijoic2hpenpnYXIiLCJhIjoiY2pxa3p0bHg1MW9oejN4bWJobWZpZDNpOSJ9.q3iuyK04zDch7wRAHp48dg'
     }).addTo(mymap);
@@ -65,6 +95,8 @@ function mapDisplay(mapContainer, extent, points, props){
             +"<br><strong>NO2</strong>:"+props[index]['NO2']
             +"<br><strong>TEMP</strong>:"+props[index]['TEMP']
         ).addTo(mymap).on('click', onChart);
+
+        markers[index] = crlMarker;
         //modified
     }
 
@@ -86,5 +118,7 @@ function mapDisplay(mapContainer, extent, points, props){
     });
 
     mymap.addLayer(marker);
+
+    return mymap;
 
 }
