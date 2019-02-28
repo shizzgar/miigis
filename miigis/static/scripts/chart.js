@@ -180,16 +180,41 @@ class chart {
 
 
     moveCursor(step) {
-        var point = this.categoryAxis.categoryToPoint(this.chart.data[step+50]["dist"]);
+
+
+        var index=step;
+        // console.log(step)
+        var dist = this.chart.data[index]['dist'];
+
+
+        var ldist = 0;
+        var rdist = 0;
+        var delta1 = 0;
+        while ((delta1<=200)&&(ldist<index)) {
+            delta1 = dist - this.chart.data[index-ldist]["dist"];
+            ldist+=1;
+        }
+        var delta2 = 0;
+        var len=this.chart.data.length;
+        while ((delta2<=200)&&((index+rdist)<(len-1))) {
+            delta2 = this.chart.data[index+rdist]["dist"] - dist;
+            rdist+=1;       
+        }
+    
+
+        
+        var point = this.categoryAxis.categoryToPoint(dist);
         // if (step==1){
             
         // };
-        this.categoryAxis.zoomToCategories(this.chart.data[step]["dist"], this.chart.data[step+100]["dist"]);    
-        //add break i+100 > dist
-        // this.chart.cursor.showTooltip(point);
-        this.chart.cursor.triggerMove(point, 'hard');
+        this.categoryAxis.zoomToCategories(tChart.chart.data[index-ldist]["dist"], tChart.chart.data[index+rdist]["dist"]);  
+        // setTimeout(function() {
+        //     this.chart.cursor.triggerMove(point, "soft");
+        // }, 100);  
+            
+        this.chart.cursor.triggerMove(point, 'soft');
         
-        // this.chart.slider.moveTo(point);
+
     }
 
 

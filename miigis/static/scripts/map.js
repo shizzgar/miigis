@@ -109,8 +109,8 @@ function mapDisplay(mapContainer, extent, points, props){
     var line = L.polyline(ps)
     marker = L.animatedMarker(line.getLatLngs(), {
         autoStart: false,
-        interval: 100,
-        distance: 100,
+        interval: 10,
+        distance: 10000,
         onStep: function() {
             $('#mysuperdiv').text(this._i);
             tChart.moveCursor(this._i);
