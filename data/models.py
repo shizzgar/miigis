@@ -1,4 +1,13 @@
 from django.contrib.gis.db import models
+from django.core.files.storage import FileSystemStorage
+import os
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+fs = FileSystemStorage(location=BASE_DIR+'/info')
+
+class FileMod(models.Model):
+    File = models.FileField(storage=fs)
 
 
 class FileInfo(models.Model):

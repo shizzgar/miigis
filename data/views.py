@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.paginator import Paginator
 from django.contrib.gis.db.models import Extent, GeometryField,PointField
 from django.contrib.gis.geos import Point,MultiPoint,GeometryCollection
 from django.contrib.gis.measure import D
+from django.contrib.auth.decorators import user_passes_test
+
 
 
 import os
@@ -20,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def testPars(request):
     
     dirName = os.path.join(BASE_DIR, 'info/')
@@ -73,26 +75,27 @@ def testPars(request):
 
 def uploadFile(request):
 
-    if request.method == 'POST':
+    # if request.method == 'POST':
 
-        form = UploadForm(request.POST, request.FILES)
+    #     form = UploadForm(request.POST, request.FILES)
 
-        if form.is_valid():
+    #     if form.is_valid():
 
-            if  FileInfo.objects.filter(name=request.FILES['file'].name).exists():
-                return HttpResponse('File already in DB')
+    #         if  FileInfo.objects.filter(name=request.FILES['file'].name).exists():
+    #             return HttpResponse('File already in DB')
 
-            else:
-                uploader = Uploader()
-                path = os.path.join(BASE_DIR, 'info/') + request.FILES['file'].name
-                uploader.upload(request.FILES['file'], path)
-                return HttpResponse('Good')
+    #         else:
+    #             uploader = Uploader()
+    #             path = os.path.join(BASE_DIR, 'info/') + request.FILES['file'].name
+    #             uploader.upload(request.FILES['file'], path)
+    #             return HttpResponse('Good')
 
-    else:
+    # else:
 
-        form = UploadForm()
+    #     form = UploadForm()
 
-    return render(request, 'upload.html', {'form': form})
+    # return render(request, 'upload.html', {'form': form})
+    return redirect('/admin/data/filemod/add/')
 
 
 
