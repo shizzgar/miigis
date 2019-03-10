@@ -56,7 +56,7 @@ def testPars(request):
                         # print(dist)
                     else:
                         d = distance(prevp, data['GPS'])
-                        dist+= d.m
+                        dist+= abs(d.m)
                         data['dist'] = dist
                         prevp = data['GPS']
                         print(d.m)

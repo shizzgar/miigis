@@ -288,7 +288,7 @@ class chart {
         this.distValueToSearch=parseInt(numbers[0])
         var dataItem=this.chart.data.find(isChartDistEqual,this);
         if (dataItem){
-            alert('data: dist='+dataItem['dist']+', CO='+dataItem['co']+', index='+dataItem['index']);
+            console.log('data: dist='+dataItem['dist']+', CO='+dataItem['co']+', index='+dataItem['index']);
 
             if (parseFloat(numbers[3])){
                 var search = [parseInt(numbers[0]), parseFloat(numbers[1]), parseFloat(numbers[2]), parseFloat(numbers[3])]
