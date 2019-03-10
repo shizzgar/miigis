@@ -51,10 +51,10 @@ var onChart = function(e) {
     }
 
 
-    var point = tChart.categoryAxis.categoryToPoint(dist);
+    var point = tChart.categoryAxis.valueToPoint(dist);
     console.log("current:"+index+", left: "+ldist+", right: "+rdist+" delta left:"+delta1+" delta right:"+delta2);
 
-    tChart.categoryAxis.zoomToCategories(tChart.chart.data[index-ldist]["dist"], tChart.chart.data[index+rdist]["dist"]);  
+    tChart.categoryAxis.zoomToValues(tChart.chart.data[index-ldist]["dist"], tChart.chart.data[index+rdist]["dist"]);  
     setTimeout(function() {
         tChart.chart.cursor.triggerMove(point, "soft");
     }, 100);  
@@ -88,7 +88,7 @@ function mapDisplay(mapContainer, extent, points, props){
     }).addTo(mymap);
 
     for (index=0; index<ps.length; index++){
-        var crlMarker = new L.circleMarker([ps[index][0], ps[index][1]],{radius:1, cid:index})
+        var crlMarker = new L.circleMarker([ps[index][0], ps[index][1]],{radius:3, cid:index})
 
         crlMarker.bindPopup(
             '<strong>CO</strong>:'+props[index]['CO']
