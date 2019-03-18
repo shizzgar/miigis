@@ -61,12 +61,20 @@ button.mapbtn{
 }
 
 
+#legendDiv{
+    height: 50;
+    width: 100%;
+    float: left;
+}
 
-#slidebar{
+
+
+/* #slidebar{
     height: 30px;
     width: 100%;
     float:left;
-}
+} */
+
 #slidebar table {  
     width: 100%;
     float: left;
@@ -82,8 +90,8 @@ button.mapbtn{
     float: left;
 }
 
-#allCharts .chart{
-    height: 670px;
+#chartdivT{
+    height: 620px;
 }
 
 button.bchart {

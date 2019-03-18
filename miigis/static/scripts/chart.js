@@ -29,6 +29,8 @@ function generateChartData(dforChar) {
 
 
 var tt;
+var cnt = 0;
+var guideBank = [];
 
 function isChartDistEqual(element,index,array){
     return element['dist']==this.distValueToSearch;
@@ -81,7 +83,7 @@ class chart {
         this.seriesT.tooltipText = "{valueX}: [bold]{valueY}[/]";
         this.seriesT.tensionX = 0.8;
         this.seriesT.status = true;
-        this.seriesT.legendSettings.labelText = "[bold {color}]Temp:[/]";
+        this.seriesT.legendSettings.labelText = "Temp[bold {color}][/]";
         this.seriesT.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
         this.seriesT.strokeWidth = 2;
 
@@ -111,9 +113,10 @@ class chart {
         this.seriesC.tooltipText = "{valueX}: [bold]{valueY}[/]";
         this.seriesC.tensionX = 0.8;
         this.seriesC.status = true;
-        this.seriesC.legendSettings.labelText = "[bold {color}]CO:[/]";
+        this.seriesC.legendSettings.labelText = "CO[bold {color}][/]";
         this.seriesC.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
         this.seriesC.strokeWidth = 2;
+        this.seriesC.stroke = am4core.color("#808080");
 
 
         this.valueAxisC.renderer.line.strokeOpacity = 3;
@@ -134,11 +137,11 @@ class chart {
         this.seriesN.dataFields.valueX = "dist"; 
         this.seriesN.dataFields.valueY = "no2";
         this.seriesN.yAxis = this.valueAxisN; // new line
-        this.seriesN.tooltip.animationDuration = 0;
-        this.seriesN.tooltipText = "{valueX}: [bold]{valueY}[/]";
+        // this.seriesN.tooltip.animationDuration = 0;
+        // this.seriesN.tooltipText = "{valueX}: [bold]{valueY}[/]";
         this.seriesN.tensionX = 0.8;
         this.seriesN.status = true;
-        this.seriesN.legendSettings.labelText = "[bold {color}]NO2:[/]";
+        this.seriesN.legendSettings.labelText = "NO2[bold {color}][/]";
         this.seriesN.legendSettings.itemValueText = "[bold {color}]{valueY}[/bold]";
         this.seriesN.strokeWidth = 2;
         
@@ -158,17 +161,18 @@ class chart {
         this.chart.cursor.animationDuration = 0;
         this.chart.cursor.lineY.disabled = true;
         this.chart.cursor.xAxis = this.categoryAxis;
-        this.chart.cursor.behavior = 'none';
+        // this.chart.cursor.behavior = 'none';
         // this.chart.cursor.fullWidthLineX = true;
 
 
-        this.chart.legend = new am4charts.Legend();
+        // this.chart.legend = new am4charts.Legend();
 
 
         this.chart.scrollbarX = new am4charts.XYChartScrollbar();
         this.chart.scrollbarX.series.push(this.seriesT);
         this.chart.scrollbarX.series.push(this.seriesC);
         this.chart.scrollbarX.series.push(this.seriesN);
+
 
         this.seriesT.segments.template.interactionsEnabled = true;
         this.seriesC.segments.template.interactionsEnabled = true;
@@ -177,7 +181,9 @@ class chart {
         this.seriesC.segments.template.events.on("hit", this.onMap, this); 
         this.seriesN.segments.template.events.on("hit", this.onMap, this);  
         this.chart.cursor.events.on("cursorpositionchanged",this.onCursorHit,this);
-        // this.chart.cursor.events.off("hit", onMap, this); 
+
+
+        this.chart.events.on("hit", this.makeGuide, this); 
 
         // tt is inicilized above class 
         tt = this.chart.createChild(am4core.Tooltip);
@@ -263,11 +269,22 @@ class chart {
             
             return center;
         }
+    }
 
+    
 
-        
-
-        
+    makeGuide(ev){
+        let xAxes = this.categoryAxis.toAxisPosition(this.chart.cursor.xPosition);
+        let x = this.categoryAxis.positionToValue(xAxes);
+        console.log(xAxes, x);
+        let range = tChart.categoryAxis.axisRanges.create();
+        guideBank[cnt] = range;
+        range.value = x;
+        range.grid.stroke = am4core.color("#ff2400");
+        range.grid.strokeWidth = 2;
+        range.grid.strokeOpacity = 1;
+        // range.axisFill.fill = am4core.color("#ff2400");
+        cnt+=1;
     }
 
     
@@ -276,14 +293,7 @@ class chart {
     }
 
     onMap(ev){
-        // var category = ev.target.dataItem.component.tooltipDataItem.dataContext;
-        // var xAxis=this.chart.xAxes.getIndex(0);
-        // var value=xAxis.positionToValue(xAxis.toAxisPosition(this.positionX));
-        // var value=xAxis.toAxisPosition(this.positionX);
-        // alert('valueX:'+ value);
         var category = tt.label.currentText;
-        // point = category.positionToIndex(categorvar search = [parseInt(numbers[0]), parseFloat(numbers[1]), parseFloat(numbers[2]), parseFloat(numbers[3])]y.toAxisPosition(ev.target.xPosition));
-        // var numbers = category.match(/\d+/g).map(Number);
         var numbers = category.match(/[+-]?\d+\.*\d+/g);
         this.distValueToSearch=parseInt(numbers[0])
         var dataItem=this.chart.data.find(isChartDistEqual,this);
@@ -298,17 +308,15 @@ class chart {
             console.log(search);
             var index = dataItem['index'];
             var point = points.coordinates[index];
-            // var cursorTag = this.chart.data[index]['dist'];
             var cursorPoint = this.categoryAxis.valueToPoint(numbers[0]);
-            // this.categoryAxis.zoomToValues(tChart.chart.data[index-30]["dist"], tChart.chart.data[index+30]["dist"]);
             this.categoryAxis.zoomToValues(numbers[0]-300, parseInt(numbers[0])+300);    
-            this.chart.cursor.triggerMove(cursorPoint, 'soft');
+            this.chart.cursor.triggerMove(cursorPoint, 'none');
             console.log(index + ' ' + point + ' ' + cursorPoint);
             map.setView(point, 17);
             markers[index].openPopup();
     
         }else{
-            alert('not found');
+            console.log('not found');
         }
         
     }
@@ -347,7 +355,7 @@ class chart {
         //     this.chart.cursor.triggerMove(point, "soft");
         // }, 100);  
             
-        this.chart.cursor.triggerMove(point, 'soft');
+        this.chart.cursor.triggerMove(point, 'none');
         
 
     }

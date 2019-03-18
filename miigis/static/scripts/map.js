@@ -56,8 +56,20 @@ var onChart = function(e) {
 
     tChart.categoryAxis.zoomToValues(tChart.chart.data[index-ldist]["dist"], tChart.chart.data[index+rdist]["dist"]);  
     setTimeout(function() {
-        tChart.chart.cursor.triggerMove(point, "soft");
-    }, 100);  
+        tChart.chart.cursor.triggerMove(point, "none");
+    }, 100); 
+     
+    console.log(dist);
+
+    let range = tChart.categoryAxis.axisRanges.create();
+    guideBank[cnt] = range;
+    range.value = dist;
+    range.grid.stroke = am4core.color("#ff2400");
+    range.grid.strokeWidth = 2;
+    range.grid.strokeOpacity = 1;
+    // range.axisFill.fill = am4core.color("#ff2400");
+    cnt+=1;
+
 }
 
 
