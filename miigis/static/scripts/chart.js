@@ -31,6 +31,9 @@ function generateChartData(dforChar) {
 var tt;
 var cnt = 0;
 var guideBank = [];
+var legendContainer;
+
+
 
 function isChartDistEqual(element,index,array){
     return element['dist']==this.distValueToSearch;
@@ -54,7 +57,7 @@ class chart {
         this.categoryAxis.max = data[data.length-1]['dist'];
         this.categoryAxis.strictMinMax = true;         
         
-        this.positionX=-1
+        // this.positionX=-1
 
 
         //valAx and Series for temp
@@ -165,7 +168,12 @@ class chart {
         // this.chart.cursor.fullWidthLineX = true;
 
 
-        // this.chart.legend = new am4charts.Legend();
+        this.chart.legend = new am4charts.Legend();
+        var legendContainer = am4core.create("legendDiv", am4core.Container);
+        legendContainer.width = am4core.percent(100);
+        legendContainer.height = am4core.percent(100);
+
+        this.chart.legend.parent = legendContainer;
 
 
         this.chart.scrollbarX = new am4charts.XYChartScrollbar();
@@ -184,6 +192,12 @@ class chart {
 
 
         this.chart.events.on("hit", this.makeGuide, this); 
+        this.categoryAxis.events.on('selectionextremeschanged', function(ev) {
+            $('#distDiv').text("Distance between grid lines |" + this.categoryAxis.step + "|");
+            console.log('here');
+        }, this);
+
+        
 
         // tt is inicilized above class 
         tt = this.chart.createChild(am4core.Tooltip);

@@ -13,20 +13,20 @@
 
 #mapAndChartBox{
     margin: 5px;
-    height: 700px;
+    height: 730px;
     width: 100%;
 }
 
 
 #mapBox{
-    height: 700px;
+    height: 730px;
     width: 29%;
     float: left;
 }
 
 
 #mapid{ 
-    height: 670px;
+    height: 700px;
     width: 100%;
     float: left;
 }
@@ -55,25 +55,16 @@ button.mapbtn{
 
 
 #chartBox{
-    height: 700px;
+    height: 730px;
     width: 69%;
     float: left;
 }
 
-
-#legendDiv{
-    height: 50;
-    width: 100%;
-    float: left;
-}
-
-
-
-/* #slidebar{
+#slidebar{
     height: 30px;
     width: 100%;
     float:left;
-} */
+}
 
 #slidebar table {  
     width: 100%;
@@ -85,14 +76,31 @@ button.mapbtn{
 }
 
 #allCharts{
-    height: 670px;
+    height: 700px;
     width: 100%;
     float: left;
 }
 
 #chartdivT{
-    height: 620px;
+    height:650px;
+    margin: 0.5%;
 }
+
+#legendDiv{
+    height: 50px;
+    width: 49%;
+    float: left;
+    margin: 0.5%;
+    /* position: absolut; */
+}
+
+#distDiv{
+    height: 50px;
+    width: 49%;
+    float: left;
+    margin:0.5%;
+}
+
 
 button.bchart {
     width: 100%
