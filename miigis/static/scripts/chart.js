@@ -55,7 +55,9 @@ class chart {
 
         this.categoryAxis.min = 0;
         this.categoryAxis.max = data[data.length-1]['dist'];
-        this.categoryAxis.strictMinMax = true;         
+        this.categoryAxis.strictMinMax = true; 
+        this.categoryAxis.cursorTooltipEnabled = false;
+        
         
         // this.positionX=-1
 
@@ -98,7 +100,9 @@ class chart {
         this.valueAxisT.renderer.line.stroke = this.seriesT.stroke;
         this.valueAxisT.renderer.labels.template.fill = this.seriesT.stroke;
         this.valueAxisT.renderer.opposite = opposite;
-        this.valueAxisT.renderer.grid.template.disabled = true;    
+        this.valueAxisT.renderer.grid.template.disabled = true;   
+        
+        this.valueAxisT.cursorTooltipEnabled = false;
             
 
 
@@ -128,6 +132,7 @@ class chart {
         this.valueAxisC.renderer.labels.template.fill = this.seriesC.stroke;
         this.valueAxisC.renderer.opposite = opposite;
         this.valueAxisC.renderer.grid.template.disabled = true;        
+        this.valueAxisC.cursorTooltipEnabled = false;
 
 
 
@@ -155,19 +160,73 @@ class chart {
         this.valueAxisN.renderer.labels.template.fill = this.seriesN.stroke;
         this.valueAxisN.renderer.opposite = opposite;
         this.valueAxisN.renderer.grid.template.disabled = true;
+        this.valueAxisN.cursorTooltipEnabled = false;
 
         
 
 
 
+        
+        
+        
+        
+
         this.chart.cursor = new am4charts.XYCursor();
         this.chart.cursor.animationDuration = 0;
-        this.chart.cursor.lineY.disabled = true;
+        
         this.chart.cursor.xAxis = this.categoryAxis;
         // this.chart.cursor.behavior = 'none';
+        
         // this.chart.cursor.fullWidthLineX = true;
+        this.chart.cursor.lineY.disabled = true;
+        this.chart.cursor.lineX.stroke = am4core.color("#FFD700");
+        this.chart.cursor.lineX.strokeWidth = 4;
+        this.chart.cursor.lineX.strokeOpacity = 0.7;
+        this.chart.cursor.lineX.strokeDasharray = "";   
+        
+        //fix title of axis 
+        this.chart.paddingTop = 40;
 
 
+        this.valueAxisT.renderer.grid.template.disabled = true;
+        this.valueAxisT.paddingLeft = 10;
+        this.valueAxisT.paddingRight = 10;
+        this.valueAxisT.layout = "absolute";
+         
+        // Set up axis title
+        this.valueAxisT.title.text = "Temp";
+        this.valueAxisT.title.rotation = 0;
+        this.valueAxisT.title.align = "center";
+        this.valueAxisT.title.valign = "top";
+        this.valueAxisT.title.dy = -40;
+        this.valueAxisT.title.fontWeight = 600;
+
+        this.valueAxisN.renderer.grid.template.disabled = true;
+        this.valueAxisN.paddingLeft = 10;
+        this.valueAxisN.paddingRight = 10;
+        this.valueAxisN.layout = "absolute";
+        this.valueAxisN.title.text = "NO2";
+        this.valueAxisN.title.rotation = 0;
+        this.valueAxisN.title.align = "center";
+        this.valueAxisN.title.valign = "top";
+        this.valueAxisN.title.dy = -40;
+        this.valueAxisN.title.fontWeight = 600;
+
+                
+        this.valueAxisC.renderer.grid.template.disabled = true;
+        this.valueAxisC.paddingLeft = 10;
+        this.valueAxisC.paddingRight = 10;
+        this.valueAxisC.layout = "absolute";
+        this.valueAxisC.title.text = "CO";
+        this.valueAxisC.title.rotation = 0;
+        this.valueAxisC.title.align = "center";
+        this.valueAxisC.title.valign = "top";
+        this.valueAxisC.title.dy = -40;
+        this.valueAxisC.title.fontWeight = 600;        
+
+
+        
+        
         this.chart.legend = new am4charts.Legend();
         var legendContainer = am4core.create("legendDiv", am4core.Container);
         legendContainer.width = am4core.percent(100);
